@@ -1,0 +1,48 @@
+# === FILE: openenv.yaml ===
+name: email_triage
+version: "1.0.0"
+description: "An RL environment where an AI agent triages incoming emails by classifying priority, category, and drafting appropriate responses."
+author: "Mohammed Kashif Ansari"
+tags:
+  - openenv
+  - email
+  - nlp
+  - triage
+  - real-world
+tasks:
+  - name: priority_classification
+    difficulty: easy
+    description: "Classify the priority level of a single email"
+    max_steps: 1
+    reward_range: [0.0, 1.0]
+  - name: triage_and_reply
+    difficulty: medium
+    description: "Classify priority, category, action and draft a reply"
+    max_steps: 1
+    reward_range: [0.0, 1.0]
+  - name: full_pipeline_escalation
+    difficulty: hard
+    description: "Handle a 3-email thread with consistent triage and escalation decisions"
+    max_steps: 3
+    reward_range: [0.0, 1.0]
+observation_space:
+  type: object
+  fields:
+    - email_id: string
+    - subject: string
+    - sender: string
+    - body: string
+    - timestamp: string
+    - thread_length: integer
+    - has_attachment: boolean
+    - step_number: integer
+    - task_name: string
+    - instructions: string
+action_space:
+  type: object
+  fields:
+    - priority: "enum: urgent|high|medium|low"
+    - category: "enum: billing|support|sales|spam|internal|other"
+    - action_taken: "enum: respond|escalate|archive|forward"
+    - reply_draft: string
+    - confidence: "float [0.0, 1.0]"
